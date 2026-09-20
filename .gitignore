@@ -1,0 +1,22 @@
+# Dependencies and generated builds
+node_modules/
+dist/
+target/
+
+# IDE and operating-system files
+.settings/
+.classpath
+.project
+.factorypath
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local environment files
+.env
+.env.*
+!.env.example
+
+# Local source snapshots retained outside the public portfolio
+Learning-Journey/Archive/unreviewed-course-files/

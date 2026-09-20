@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Superhero Generator</title>
+
+  <style>
+    body {
+      background-color: #1a1a2e;
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .box {
+      background-color: #16213e;
+      padding: 40px;
+      border-radius: 12px;
+      width: 400px;
+      text-align: center;
+      border: 1px solid #0f3460;
+    }
+
+    h1 {
+      color: #e94560;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    p {
+      color: #aaaaaa;
+      font-size: 13px;
+      margin-bottom: 25px;
+    }
+
+    label {
+      color: #cccccc;
+      display: block;
+      text-align: left;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      border: 1px solid #0f3460;
+      background-color: #0f3460;
+      color: white;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #0f3460;
+      background-color: #0f3460;
+      color: white;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #e94560;
+      color: white;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 15px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #c73652;
+    }
+
+    #resultBox {
+      margin-top: 25px;
+      padding: 15px;
+      background-color: #0f3460;
+      border-radius: 10px;
+      display: none;
+    }
+
+    #heroName {
+      font-size: 20px;
+      font-weight: bold;
+      color: #e94560;
+    }
+
+    #heroPower {
+      font-size: 14px;
+      color: #cccccc;
+      margin-top: 6px;
+    }
+
+    #errMsg {
+      color: #e94560;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="box">
+    <h1>🦸 Superhero Generator</h1>
+    <p>Find out your superhero name and power!</p>
+
+    <label for="myName">Your Name:</label>
+    <input type="text" id="myName" placeholder="Enter your name">
+
+    <label for="myMonth">Birth Month:</label>
+    <select id="myMonth">
+      <option value="">-- Pick a month --</option>
+      <option value="1">January</option>
+      <option value="2">February</option>
+      <option value="3">March</option>
+      <option value="4">April</option>
+      <option value="5">May</option>
+      <option value="6">June</option>
+      <option value="7">July</option>
+      <option value="8">August</option>
+      <option value="9">September</option>
+      <option value="10">October</option>
+      <option value="11">November</option>
+      <option value="12">December</option>
+    </select>
+
+    <button onclick="getHero()">Generate!</button>
+
+    <p id="errMsg"></p>
+
+    <div id="resultBox">
+      <div id="heroName"></div>
+      <div id="heroPower"></div>
+    </div>
+  </div>
+
+  <script>
+
+    function getHero() {
+
+      const name = document.getElementById("myName").value;
+      const month = document.getElementById("myMonth").value;
+      const errMsg = document.getElementById("errMsg");
+      const resultBox = document.getElementById("resultBox");
+
+      errMsg.textContent = "";
+      resultBox.style.display = "none";
+
+      if (name == "") {
+        errMsg.textContent = "Please enter your name!";
+        return;
+      }
+
+      if (month == "") {
+        errMsg.textContent = "Please pick a month!";
+        return;
+      }
+
+      fetch("/generate?name=" + name + "&month=" + month)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (data) {
+
+          const heroName = document.getElementById("heroName");
+          const heroPower = document.getElementById("heroPower");
+
+          heroName.textContent = data.alias;
+          heroPower.textContent = "Power: " + data.power;
+
+          resultBox.style.display = "block";
+
+        })
+        .catch(function (error) {
+          errMsg.textContent = "Something went wrong, try again.";
+          console.log(error);
+        });
+    }
+
+  </script>
+
+</body>
+
+</html>

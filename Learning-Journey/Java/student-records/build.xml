@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Student" default="run" basedir=".">
+    <property file="nbproject/project.properties"/>
+    <target name="compile">
+        <mkdir dir="${build.classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${build.classes.dir}" source="${javac.source}" target="${javac.target}" includeantruntime="false"/>
+    </target>
+    <target name="run" depends="compile">
+        <java classname="${main.class}" fork="true">
+            <classpath><pathelement location="${build.classes.dir}"/></classpath>
+        </java>
+    </target>
+</project>

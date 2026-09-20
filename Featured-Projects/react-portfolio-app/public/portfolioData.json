@@ -1,0 +1,99 @@
+{
+  "header": {
+    "name": "Simon Jaramillo",
+    "role": "Second Year Sheridan Software Engineering Student and Aspiring AI Engineer",
+    "motto": "Building the tools that change the world"
+  },
+  "about": {
+    "paragraph": "I'm a student at Sheridan College. My passion is learning how to develop tools that can make a change in society. This portfolio includes projects that helped me practise components, data structures, list rendering, conditional rendering, and semantic HTML."
+  },
+  "contact": {
+    "email": "jaramisi@sheridancollege.ca"
+  },
+  "projects": [
+    {
+      "id": 1,
+      "title": "Superhero Name Generator",
+      "description": "A fun JavaScript project that generates random superhero names using arrays, variables, and functions. The application combines different words together to create unique superhero identities.",
+      "image": "/images/heros.jpg",
+      "important": true
+    },
+    {
+      "id": 2,
+      "title": "Tax Calculator App",
+      "description": "A JavaScript tax calculator that allows users to enter income values and calculate estimated taxes dynamically. The project uses variables, functions, user input, and mathematical calculations.",
+      "image": "/images/calc.jpg",
+      "important": true
+    },
+    {
+      "id": 3,
+      "title": "Highway Escape",
+      "description": "A driving game inspired by classic arcade games where the player avoids traffic and obstacles while surviving as long as possible on the highway. The project uses JavaScript logic, movement controls, and collision detection.",
+      "image": "/images/cars.jpg",
+      "important": false
+    },
+    {
+      "id": 4,
+      "title": "React Developer Portfolio",
+      "description": "A personal portfolio created with React components, props, list rendering, conditional rendering, and CSS.",
+      "image": "/images/reactApp.jpeg",
+      "important": false
+    },
+    {
+      "id": 5,
+      "title": "Sheridan Student Dashboard",
+      "description": "A web page showing student information using semantic HTML, CSS styling, and embedded variables.",
+      "image": "/images/sheridan.jpg",
+      "important": false
+    }
+  ],
+  "footer": {
+    "socialLinks": [
+      {
+        "id": 1,
+        "name": "LinkedIn",
+        "url": "https://www.linkedin.com/in/sjaramillo12"
+      },
+      {
+        "id": 2,
+        "name": "Instagram",
+        "url": "https://www.instagram.com/sjaramilllo"
+      },
+      {
+        "id": 3,
+        "name": "YouTube",
+        "url": "https://www.youtube.com/@coldbeatzzz"
+      }
+    ],
+    "technologies": [
+      {
+        "id": 1,
+        "name": "React"
+      },
+      {
+        "id": 2,
+        "name": "TypeScript"
+      },
+      {
+        "id": 3,
+        "name": "HTML"
+      },
+      {
+        "id": 4,
+        "name": "CSS"
+      },
+      {
+        "id": 5,
+        "name": "Vite"
+      },
+      {
+        "id": 6,
+        "name": "Tailwind"
+      },
+      {
+        "id": 7,
+        "name": "shadcn"
+      }
+    ]
+  }
+}

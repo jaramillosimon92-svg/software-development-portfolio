@@ -1,0 +1,262 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .app {
+    min-height: 100vh;
+    background-color: #ffffff;
+    color: #111827;
+  }
+  
+  .app.dark {
+    background-color: #020617;
+    color: white;
+  }
+  
+  .site-header {
+    background: linear-gradient(135deg, #fff41c, #140ddf);
+    color: white;
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .site-header h1 {
+    font-size: 42px;
+    margin-bottom: 12px;
+    font-weight: bold;
+  }
+  
+  .site-header h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+  }
+  
+  .site-header h3 {
+    font-size: 16px;
+    font-weight: normal;
+  }
+  
+  .main-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 35px 25px 50px;
+  }
+  
+  .dark-mode-control {
+    display: inline-block;
+    background-color: #2563eb;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-bottom: 25px;
+  }
+  
+  .about-section {
+    background-color: white;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 50px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  }
+  
+  .about-section h2 {
+    font-size: 24px;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .about-section p {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  
+  .projects-section {
+    margin-bottom: 55px;
+  }
+  
+  .projects-section h2 {
+    font-size: 26px;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+    align-items: start;
+  }
+  
+  .project-card {
+    background-color: white;
+    color: #111827;
+    border-radius: 14px;
+    border: none;
+    overflow: hidden;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+  }
+  
+  .project-card.featured {
+    border: 3px solid #2563eb;
+  }
+  
+  .project-card-header {
+    padding: 16px;
+  }
+  
+  .featured-label {
+    display: inline-block;
+    background-color: #dbeafe;
+    color: #1e40af;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  .project-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+  
+  .project-title {
+    font-size: 18px;
+    margin-top: 12px;
+    color: inherit;
+  }
+  
+  .project-card-content {
+    padding: 0 16px 18px;
+  }
+  
+  .project-card-content p {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  
+  .dark-card {
+    background-color: #1e293b;
+    color: white;
+  }
+  
+  .site-footer {
+    background-color: #111827;
+    color: white;
+    padding: 35px 25px;
+    width: 100%;
+  }
+  .footer-content {
+    max-width: 800px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
+    justify-items: center;
+  }
+  
+  .site-footer h2 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+  
+  .site-footer ul {
+    margin-left: 20px;
+  }
+  
+  .site-footer a {
+    color: #93c5fd;
+    text-decoration: none;
+  }
+  
+  .site-footer a:hover {
+    text-decoration: underline;
+  }
+  
+  @media screen and (max-width: 900px) {
+    .project-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  
+  @media screen and (max-width: 650px) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .footer-content {
+      grid-template-columns: 1fr;
+    }
+  
+    .site-header h1 {
+      font-size: 34px;
+    }
+  }
+
+  .like-button {
+    background-color: white;
+    color: #dc2626;
+    border: 2px solid #dc2626;
+    border-radius: 8px;
+    padding: 8px 16px;
+    margin-top: 15px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  .like-button:hover {
+    background-color: #fee2e2;
+  }
+  
+  .like-button.liked {
+    background-color: #dc2626;
+    color: white;
+  }
+  
+  .project-card.liked-card {
+    border: 3px solid #dc2626;
+  }
+
+  .contact-section {
+    background-color: white;
+    color: #111827;
+    border-radius: 16px;
+    padding: 25px;
+    margin-bottom: 50px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  }
+  
+  .contact-section h2 {
+    font-size: 24px;
+    margin-bottom: 12px;
+    font-weight: bold;
+  }
+  
+  .contact-section a {
+    color: #2563eb;
+    text-decoration: none;
+  }
+  
+  .contact-section a:hover {
+    text-decoration: underline;
+  }
+  
+  .app.dark .contact-section {
+    background-color: #1e293b;
+    color: white;
+  }
+
+  .app.dark .about-section {
+    background-color: #1e293b;
+    color: white;
+  }
+  
+  .app.dark .project-card {
+    background-color: #1e293b;
+    color: white;
+  }
