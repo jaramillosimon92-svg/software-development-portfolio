@@ -1,0 +1,10 @@
+.venv/
+__pycache__/
+work/
+outputs/
+client_secret.json
+youtube_token.json
+tests/tmp*/
+.streamlit/secrets.toml
+.pytest_cache/
+*.log

@@ -20,6 +20,7 @@ export interface ProjectData {
   description: string;
   image: string;
   important: boolean;
+  sourceUrl?: string;
 }
 
 export interface SocialLink {

@@ -12,6 +12,14 @@
   },
   "projects": [
     {
+      "id": 6,
+      "title": "Syncora",
+      "description": "A local music-video editor that recommends scenes, cuts to the beat, previews drafts, and exports full-quality videos with the original soundtrack.",
+      "image": "/images/syncora.svg",
+      "important": true,
+      "sourceUrl": "https://github.com/jaramillosimon92-svg/software-development-portfolio/tree/main/Featured-Projects/syncora"
+    },
+    {
       "id": 1,
       "title": "Superhero Name Generator",
       "description": "A fun JavaScript project that generates random superhero names using arrays, variables, and functions. The application combines different words together to create unique superhero identities.",

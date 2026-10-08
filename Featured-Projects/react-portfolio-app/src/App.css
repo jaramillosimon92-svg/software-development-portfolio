@@ -139,6 +139,24 @@ body {
     font-size: 15px;
     line-height: 1.4;
   }
+
+  .project-source-link {
+    display: inline-block;
+    margin-bottom: 14px;
+    color: #6d3dd3;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .project-source-link:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+  }
+
+  .app.dark .project-source-link {
+    color: #c4a8ff;
+  }
   
   .dark-card {
     background-color: #1e293b;

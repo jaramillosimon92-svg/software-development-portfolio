@@ -40,6 +40,11 @@ export default function Project(props: ProjectProps) {
 
       <CardContent className="project-card-content">
         <p>{props.project.description}</p>
+        {props.project.sourceUrl && (
+          <a className="project-source-link" href={props.project.sourceUrl}>
+            View source code
+          </a>
+        )}
 
         {/*The Button calls changeLike with onClick*/}
         <button
