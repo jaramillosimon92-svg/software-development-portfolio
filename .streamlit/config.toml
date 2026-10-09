@@ -7,6 +7,9 @@ buttonRadius = "10px"
 showWidgetBorder = true
 showSidebarBorder = true
 
+[server]
+maxUploadSize = 500
+
 [theme.dark]
 primaryColor = "#8252dc"
 backgroundColor = "#0d0a14"

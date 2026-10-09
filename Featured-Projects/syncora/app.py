@@ -28,7 +28,7 @@ st.set_page_config(page_title="Syncora", page_icon=":material/graphic_eq:", layo
 def reset_project() -> None:
     for key in list(st.session_state):
         if key.startswith("scene_pick_") or key in {
-            "analysis", "output", "stats", "uploaded_url", "draft", "draft_audio", "draft_selection", "source_url", "beat_upload", "rights",
+            "analysis", "output", "stats", "uploaded_url", "draft", "draft_audio", "draft_selection", "source_method", "source_url", "source_upload", "beat_upload", "rights",
             "video_title", "video_description", "saved_description_draft", "description_just_saved", "privacy", "output_quality", "playlist_input", "playlist_status", "draft_length", "export_length",
         }:
             st.session_state.pop(key, None)
@@ -53,7 +53,7 @@ def restore_project(project: dict) -> None:
     if project["output"]:
         st.session_state["output"] = project["output"]
         st.session_state["stats"] = project["stats"]
-    allowed_settings = {"source_url", "rights", "draft_length", "output_quality", "export_length", "video_title", "privacy", "playlist_input"}
+    allowed_settings = {"source_method", "source_url", "rights", "draft_length", "output_quality", "export_length", "video_title", "privacy", "playlist_input"}
     for key, value in project["settings"].items():
         if key in allowed_settings:
             st.session_state[key] = value
@@ -70,7 +70,7 @@ def persist_current_project() -> None:
         return
     settings = {
         key: st.session_state[key]
-        for key in ("source_url", "rights", "draft_length", "output_quality", "export_length", "video_title", "saved_description_draft", "privacy", "playlist_input")
+        for key in ("source_method", "source_url", "rights", "draft_length", "output_quality", "export_length", "video_title", "saved_description_draft", "privacy", "playlist_input")
         if key in st.session_state
     }
     save_project(
@@ -189,15 +189,33 @@ with st.sidebar:
                     st.rerun()
     st.button("Start new project", on_click=reset_project, width="stretch", icon=":material/add:")
     st.markdown("#### Source and beat")
-    url = st.text_input("Authorized YouTube video link", placeholder="https://youtube.com/watch?v=...", key="source_url")
+    source_method = st.radio(
+        "Video source",
+        ["Upload video", "YouTube link"],
+        horizontal=True,
+        key="source_method",
+        help="Upload is the reliable option on Streamlit Cloud. YouTube links also work when Syncora runs locally.",
+    )
+    source_upload = None
+    url = ""
+    if source_method == "Upload video":
+        source_upload = st.file_uploader(
+            "Your source video",
+            type=["mp4", "mov", "m4v", "mkv", "webm", "avi"],
+            key="source_upload",
+        )
+    else:
+        url = st.text_input("Authorized YouTube video link", placeholder="https://youtube.com/watch?v=...", key="source_url")
+        st.caption("YouTube may block downloads from hosted cloud servers. Upload the video if that happens.")
     beat_upload = st.file_uploader("Your beat", type=["mp3", "wav", "m4a", "aac", "flac"], key="beat_upload")
     confirmed = st.checkbox("I own or have permission to reuse the source video", key="rights")
     analyze = st.button("Find scene options", type="primary", width="stretch", icon=":material/search:")
     st.caption("Light or dark mode: open the ⋮ menu at the top right, then Settings → Theme.")
 
 if analyze:
-    if not url or not beat_upload or not confirmed:
-        st.error("Add a link and beat, then confirm you have permission to reuse the video.")
+    missing_source = source_upload is None if source_method == "Upload video" else not url
+    if missing_source or not beat_upload or not confirmed:
+        st.error("Add a source video and beat, then confirm you have permission to reuse the video.")
     else:
         try:
             require_program("ffmpeg")
@@ -207,10 +225,16 @@ if analyze:
                     st.session_state.pop(key, None)
             job = WORK / f"{int(time.time())}_{uuid.uuid4().hex[:8]}"
             job.mkdir(parents=True, exist_ok=True)
-            beat = job / beat_upload.name
+            beat = job / Path(beat_upload.name).name
             beat.write_bytes(beat_upload.getbuffer())
-            progress = st.progress(0, "Downloading authorized source…")
-            source = download_video(url, job)
+            if source_method == "Upload video":
+                progress = st.progress(0, "Saving source video…")
+                suffix = Path(source_upload.name).suffix.lower() or ".mp4"
+                source = job / f"source{suffix}"
+                source.write_bytes(source_upload.getbuffer())
+            else:
+                progress = st.progress(0, "Downloading authorized source…")
+                source = download_video(url, job)
             progress.progress(25, "Detecting the beat…")
             tempo, beats, beat_length = analyze_beat(beat)
             progress.progress(45, "Finding scene changes…")
@@ -232,7 +256,10 @@ if analyze:
             persist_current_project()
             progress.progress(100, "Choose your scenes below")
         except Exception as exc:
-            st.exception(exc)
+            if "HTTP Error 403" in str(exc):
+                st.error("YouTube blocked this cloud-server download. Change Video source to Upload video, then upload the same authorized source file.")
+            else:
+                st.exception(exc)
 
 analysis_data = st.session_state.get("analysis")
 output_value = st.session_state.get("output")
