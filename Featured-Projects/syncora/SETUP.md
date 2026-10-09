@@ -7,7 +7,7 @@
 3. Double-click `run_windows.bat`. If FFmpeg is missing, the launcher installs it using Windows Package Manager. Close and reopen the launcher when instructed.
 4. The first complete launch installs the Python packages and can take several minutes.
 
-Only download and reuse videos you own, license, or have permission to use. A publicly viewable YouTube video is not automatically licensed for reuse.
+Only upload and reuse videos you own, license, or have permission to use.
 
 ## 2. Connect your YouTube channel for uploads (one time)
 
@@ -25,7 +25,7 @@ Important: YouTube generally restricts uploads from a new, unverified API projec
 
 ## Normal workflow
 
-1. Paste one authorized YouTube link.
+1. Upload one authorized source video.
 2. Upload your beat.
 3. Confirm reuse rights and click **Find scene options**.
 4. Review the scenes preselected for you, changing any checkbox you like. Click **Generate quick draft** to see every selected scene once at 360p. You can also preview the first 20 seconds or whole edit.

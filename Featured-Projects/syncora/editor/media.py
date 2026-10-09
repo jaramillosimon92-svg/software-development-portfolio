@@ -4,7 +4,6 @@ import json
 import os
 import shutil
 import subprocess
-import sys
 import uuid
 from pathlib import Path
 
@@ -47,23 +46,3 @@ def audio_sample(video: Path, destination: Path, seconds: float = 15.0) -> Path:
     finally:
         temporary.unlink(missing_ok=True)
     return destination
-
-
-def download_video(url: str, destination: Path) -> Path:
-    """Download a user-authorized source using yt-dlp."""
-    destination.mkdir(parents=True, exist_ok=True)
-    template = str(destination / "source.%(ext)s")
-    run([
-        sys.executable, "-m", "yt_dlp",
-        "--no-playlist",
-        "--restrict-filenames",
-        "--js-runtimes", "deno",
-        "-f", "bv*[height<=1080]+ba/b[height<=1080]",
-        "--merge-output-format", "mp4",
-        "-o", template,
-        url,
-    ])
-    candidates = sorted(destination.glob("source.*"))
-    if not candidates:
-        raise RuntimeError("The source video could not be downloaded.")
-    return candidates[0]

@@ -9,7 +9,7 @@ import numpy as np
 import cv2
 
 from editor.analyze import Scene, analyze_scenes
-from editor.media import audio_sample, download_video
+from editor.media import audio_sample
 from editor.overlay import centered_logo_score
 from editor.preview import export_preview
 from editor.render import build_scene_reel, build_timeline, render_montage
@@ -31,19 +31,6 @@ class RenderPreviewTests(unittest.TestCase):
         square[62:112, 78:105] = cv2.cvtColor(reference, cv2.COLOR_GRAY2BGR)
         self.assertGreater(centered_logo_score(square), 0.70)
         self.assertLess(centered_logo_score(np.zeros_like(square)), 0.70)
-
-    def test_downloader_uses_project_python_module(self):
-        with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as directory:
-            target = Path(directory)
-
-            def fake_run(command):
-                self.assertEqual(command[1:3], ["-m", "yt_dlp"])
-                self.assertIn("--js-runtimes", command)
-                self.assertEqual(command[command.index("--js-runtimes") + 1], "deno")
-                (target / "source.mp4").touch()
-
-            with patch("editor.media.run", side_effect=fake_run):
-                self.assertEqual(download_video("https://example.com/video", target), target / "source.mp4")
 
     def test_failed_audio_check_keeps_existing_sample_and_removes_partial_file(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as directory:
