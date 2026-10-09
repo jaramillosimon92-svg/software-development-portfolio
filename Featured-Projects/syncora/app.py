@@ -197,7 +197,6 @@ with st.sidebar:
     beat_upload = st.file_uploader("Your beat", type=["mp3", "wav", "m4a", "aac", "flac"], key="beat_upload")
     confirmed = st.checkbox("I own or have permission to reuse the source video", key="rights")
     analyze = st.button("Find scene options", type="primary", width="stretch", icon=":material/search:")
-    st.caption("Light or dark mode: open the ⋮ menu at the top right, then Settings → Theme.")
 
 if analyze:
     if source_upload is None or not beat_upload or not confirmed:
