@@ -8,10 +8,20 @@ from unittest.mock import patch
 import numpy as np
 
 from editor.analyze import Scene
-from editor.project_store import PROJECT_TTL_SECONDS, cleanup_expired, load_project, recent_projects, remove_legacy_description, save_project
+from editor.project_store import PROJECT_TTL_SECONDS, cleanup_expired, load_project, recent_projects, remove_legacy_description, save_project, workspace_paths
 
 
 class ProjectStoreTests(unittest.TestCase):
+    def test_workspace_paths_are_isolated_and_reject_unsafe_ids(self):
+        root = Path("app_root")
+        first_work, first_outputs = workspace_paths(root, "a" * 32)
+        second_work, second_outputs = workspace_paths(root, "b" * 32)
+        self.assertNotEqual(first_work, second_work)
+        self.assertNotEqual(first_outputs, second_outputs)
+        self.assertEqual(first_work, root / "work" / ("a" * 32))
+        with self.assertRaisesRegex(ValueError, "Invalid workspace ID"):
+            workspace_paths(root, "../shared")
+
     def test_old_suggested_description_is_removed_but_custom_text_is_kept(self):
         with tempfile.TemporaryDirectory(dir=Path(__file__).resolve().parent) as directory:
             work = Path(directory) / "work"

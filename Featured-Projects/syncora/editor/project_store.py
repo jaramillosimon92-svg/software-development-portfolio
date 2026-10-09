@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 import hashlib
 import os
+import re
 import shutil
 import time
 import uuid
@@ -20,6 +21,14 @@ PROJECT_TTL_SECONDS = 6 * 60 * 60
 MANIFEST = "project.json"
 EXPORT_PREFIXES = ("syncora_", "video_studio_", "cold_beatz_")  # Retain legacy exports until their projects expire.
 LEGACY_SUGGESTED_DESCRIPTION_HASH = "f25557d3113fcb32e8bab6d1376e5acec53ff73a989bc0d80c5279fb196e50b4"
+WORKSPACE_ID_PATTERN = re.compile(r"[a-f0-9]{32}")
+
+
+def workspace_paths(root: Path, workspace_id: str) -> tuple[Path, Path]:
+    """Return isolated storage roots for one unguessable browser workspace."""
+    if not WORKSPACE_ID_PATTERN.fullmatch(workspace_id):
+        raise ValueError("Invalid workspace ID.")
+    return root / "work" / workspace_id, root / "outputs" / workspace_id
 
 
 def is_legacy_suggestion(value: object) -> bool:
@@ -205,4 +214,15 @@ def cleanup_expired(work: Path, outputs: Path, now: float | None = None) -> int:
             removed += 1
         except (OSError, ValueError, TypeError, KeyError, json.JSONDecodeError):
             continue
+    return removed
+
+
+def cleanup_expired_workspaces(work_root: Path, outputs_root: Path, now: float | None = None) -> int:
+    """Clean legacy jobs and each isolated workspace without crossing boundaries."""
+    removed = cleanup_expired(work_root, outputs_root, now)
+    if not work_root.exists():
+        return removed
+    for workspace in work_root.iterdir():
+        if workspace.is_dir() and WORKSPACE_ID_PATTERN.fullmatch(workspace.name):
+            removed += cleanup_expired(workspace, outputs_root / workspace.name, now)
     return removed

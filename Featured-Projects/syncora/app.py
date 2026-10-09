@@ -13,16 +13,24 @@ from editor.media import audio_sample, require_program
 from editor.render import build_scene_reel, build_timeline, render_montage
 from editor.preview import export_preview
 from editor.overlay import centered_logo_score
-from editor.project_store import cleanup_expired, is_legacy_suggestion, recent_projects, remove_legacy_description, save_project
+from editor.project_store import cleanup_expired_workspaces, is_legacy_suggestion, recent_projects, remove_legacy_description, save_project, workspace_paths
 from editor.selection import recommend_scenes
 from editor.ui import render_hero, section_heading
 from editor.youtube_upload import upload_video
 
 ROOT = Path(__file__).resolve().parent
-WORK = ROOT / "work"
-OUTPUTS = ROOT / "outputs"
+WORK_ROOT = ROOT / "work"
+OUTPUTS_ROOT = ROOT / "outputs"
 
 st.set_page_config(page_title="Syncora", page_icon=":material/graphic_eq:", layout="wide")
+
+workspace_id = st.query_params.get("workspace", "")
+try:
+    WORK, OUTPUTS = workspace_paths(ROOT, workspace_id)
+except ValueError:
+    workspace_id = uuid.uuid4().hex
+    st.query_params["workspace"] = workspace_id
+    WORK, OUTPUTS = workspace_paths(ROOT, workspace_id)
 
 
 def reset_project() -> None:
@@ -171,7 +179,7 @@ def create_preview_gallery(source: Path, scenes: list[Scene], folder: Path) -> t
 
 
 remove_legacy_description(WORK)
-cleanup_expired(WORK, OUTPUTS)
+cleanup_expired_workspaces(WORK_ROOT, OUTPUTS_ROOT)
 saved_projects = recent_projects(WORK, OUTPUTS)
 if not st.session_state.get("analysis") and not st.session_state.get("skip_restore") and saved_projects:
     restore_project(saved_projects[0])
@@ -182,7 +190,7 @@ with st.sidebar:
     st.markdown("### :material/graphic_eq: Syncora")
     st.caption("Your editing workspace")
     if saved_projects:
-        with st.expander("Saved projects · 6 hours", icon=":material/folder_open:"):
+        with st.expander("This workspace · saved 6 hours", icon=":material/folder_open:"):
             for project in saved_projects[:6]:
                 job = Path(project["analysis"]["job"])
                 label = f"{Path(project['analysis']['beat']).stem} · {time.strftime('%I:%M %p', time.localtime(project['updated_at']))}"
@@ -444,7 +452,7 @@ if output_value and Path(output_value).exists():
         try:
             with st.spinner("Uploading to your YouTube channel…"):
                 video_url, playlist_status = upload_video(
-                    output, title, description, privacy, secret, ROOT / "youtube_token.json", playlist
+                    output, title, description, privacy, secret, WORK / "youtube_token.json", playlist
                 )
             st.session_state["uploaded_url"] = video_url
             st.session_state["playlist_status"] = playlist_status

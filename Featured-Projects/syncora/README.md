@@ -4,6 +4,8 @@ A video editing app that turns an uploaded source video and one original beat in
 
 The editor finds scene boundaries, divides long shots into short options, and presents a manual gallery with four-frame previews of the final square crop. It excludes source segments containing the known centered DREHTV logo, then preselects a varied set of recommended scenes while allowing the creator to change every remaining choice. The selected scenes are arranged every four beats, with extra cuts where beat detection leaves a long gap. Shots are capped at three seconds, and the renderer will not add a long frozen-frame hold. The fast 360p scene review draft shows every selected scene once; additional draft views preview the first 20 seconds or whole final edit. Full-quality exports are 1080p or 1440p (2K/QHD). Drafts and exports include the uploaded beat and offer a separate rendered-audio check in the app. All versions preserve a square layout with black side bars. The finished video can be uploaded through Google's official YouTube Data API with OAuth and optionally added to a playlist.
 
+Each visitor receives an isolated, unguessable workspace in the app URL. Refreshing that URL restores only that workspace's short-lived projects; opening the public app URL on another browser or device creates a separate workspace.
+
 Start on Windows by reading `SETUP.md`, then double-click `run_windows.bat`.
 
 ## Current limitations
