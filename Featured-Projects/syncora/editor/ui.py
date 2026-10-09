@@ -14,6 +14,14 @@ STYLE = """
 [data-testid="stSidebar"] [data-testid="stVerticalBlock"] { gap:.75rem; }
 [data-testid="stSidebar"] { border-right:1px solid rgba(155,109,255,.16); }
 [data-testid="stSidebar"] button { border-radius:10px; }
+[data-testid="stExpandSidebarButton"],
+[data-testid="stSidebarCollapseButton"] button { min-width:2.6rem; min-height:2.6rem; padding:.45rem!important; color:#f5f0fb!important; opacity:1!important; background:rgba(130,82,220,.24)!important; border:1px solid rgba(196,168,255,.55)!important; border-radius:10px!important; box-shadow:0 4px 16px rgba(9,4,20,.28); }
+[data-testid="stExpandSidebarButton"]:hover,
+[data-testid="stSidebarCollapseButton"] button:hover { color:#fff!important; background:rgba(130,82,220,.42)!important; border-color:#c4a8ff!important; }
+[data-testid="stExpandSidebarButton"] span,
+[data-testid="stExpandSidebarButton"] svg,
+[data-testid="stSidebarCollapseButton"] span,
+[data-testid="stSidebarCollapseButton"] svg { color:currentColor!important; fill:currentColor!important; }
 [data-testid="stMain"] h1,[data-testid="stMain"] h2,[data-testid="stMain"] h3 { letter-spacing:-.045em; }
 .studio-shell.landing { min-height:calc(100svh - 7rem); display:flex; flex-direction:column; justify-content:center; }
 .studio-hero { position:relative; isolation:isolate; overflow:hidden; min-height:380px; margin-bottom:1rem; padding:clamp(28px,4.4vw,64px); border:1px solid #292037; border-radius:24px; color:#f5f0ff; background:radial-gradient(ellipse at 80% 42%,rgba(98,53,179,.25),transparent 32%),linear-gradient(122deg,#100d19 0%,#151020 55%,#0b0a12 100%); display:grid; grid-template-columns:minmax(0,1.35fr) minmax(245px,.65fr); align-items:center; }
