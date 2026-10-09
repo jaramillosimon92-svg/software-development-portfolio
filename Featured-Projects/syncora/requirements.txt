@@ -1,5 +1,6 @@
 streamlit>=1.42,<2
-yt-dlp>=2026.1.1
+yt-dlp[default]>=2026.1.1
+deno>=2.3,<3
 opencv-python-headless>=4.10,<5
 librosa>=0.10.2,<1
 numpy>=1.26,<3

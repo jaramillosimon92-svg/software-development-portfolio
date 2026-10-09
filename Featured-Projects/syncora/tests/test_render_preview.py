@@ -38,6 +38,8 @@ class RenderPreviewTests(unittest.TestCase):
 
             def fake_run(command):
                 self.assertEqual(command[1:3], ["-m", "yt_dlp"])
+                self.assertIn("--js-runtimes", command)
+                self.assertEqual(command[command.index("--js-runtimes") + 1], "deno")
                 (target / "source.mp4").touch()
 
             with patch("editor.media.run", side_effect=fake_run):

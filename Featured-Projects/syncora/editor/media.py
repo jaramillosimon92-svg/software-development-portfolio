@@ -57,6 +57,7 @@ def download_video(url: str, destination: Path) -> Path:
         sys.executable, "-m", "yt_dlp",
         "--no-playlist",
         "--restrict-filenames",
+        "--js-runtimes", "deno",
         "-f", "bv*[height<=1080]+ba/b[height<=1080]",
         "--merge-output-format", "mp4",
         "-o", template,
