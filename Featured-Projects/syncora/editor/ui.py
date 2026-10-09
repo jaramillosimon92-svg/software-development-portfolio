@@ -14,6 +14,7 @@ STYLE = """
 [data-testid="stSidebar"] [data-testid="stVerticalBlock"] { gap:.75rem; }
 [data-testid="stSidebar"] { border-right:1px solid rgba(155,109,255,.16); }
 [data-testid="stSidebar"] button { border-radius:10px; }
+[data-testid="stSidebarCollapseButton"] { display:inline!important; visibility:visible!important; opacity:1!important; }
 [data-testid="stExpandSidebarButton"],
 [data-testid="stSidebarCollapseButton"] button { min-width:2.6rem; min-height:2.6rem; padding:.45rem!important; color:#f5f0fb!important; opacity:1!important; background:rgba(130,82,220,.24)!important; border:1px solid rgba(196,168,255,.55)!important; border-radius:10px!important; box-shadow:0 4px 16px rgba(9,4,20,.28); }
 [data-testid="stExpandSidebarButton"]:hover,
