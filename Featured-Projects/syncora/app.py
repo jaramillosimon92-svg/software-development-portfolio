@@ -13,7 +13,7 @@ from editor.media import audio_sample, require_program
 from editor.render import build_scene_reel, build_timeline, render_montage
 from editor.preview import export_preview
 from editor.overlay import centered_logo_score
-from editor.project_store import cleanup_expired_workspaces, is_legacy_suggestion, recent_projects, remove_legacy_description, save_project, workspace_paths
+from editor.project_store import cleanup_expired, is_legacy_suggestion, recent_projects, remove_legacy_description, save_project
 from editor.selection import recommend_scenes
 from editor.ui import render_hero, section_heading
 from editor.youtube_upload import upload_video
@@ -23,6 +23,28 @@ WORK_ROOT = ROOT / "work"
 OUTPUTS_ROOT = ROOT / "outputs"
 
 st.set_page_config(page_title="Syncora", page_icon=":material/graphic_eq:", layout="wide")
+
+
+def workspace_paths(root: Path, identifier: str) -> tuple[Path, Path]:
+    """Return isolated storage paths for a validated browser workspace."""
+    if len(identifier) != 32 or any(character not in "0123456789abcdef" for character in identifier):
+        raise ValueError("Invalid workspace ID.")
+    return root / "work" / identifier, root / "outputs" / identifier
+
+
+def cleanup_all_workspaces() -> None:
+    """Clean legacy jobs and isolated workspaces without crossing boundaries."""
+    cleanup_expired(WORK_ROOT, OUTPUTS_ROOT)
+    if not WORK_ROOT.exists():
+        return
+    for workspace in WORK_ROOT.iterdir():
+        try:
+            workspace_paths(ROOT, workspace.name)
+        except ValueError:
+            continue
+        if workspace.is_dir():
+            cleanup_expired(workspace, OUTPUTS_ROOT / workspace.name)
+
 
 workspace_id = st.query_params.get("workspace", "")
 try:
@@ -179,7 +201,7 @@ def create_preview_gallery(source: Path, scenes: list[Scene], folder: Path) -> t
 
 
 remove_legacy_description(WORK)
-cleanup_expired_workspaces(WORK_ROOT, OUTPUTS_ROOT)
+cleanup_all_workspaces()
 saved_projects = recent_projects(WORK, OUTPUTS)
 if not st.session_state.get("analysis") and not st.session_state.get("skip_restore") and saved_projects:
     restore_project(saved_projects[0])
