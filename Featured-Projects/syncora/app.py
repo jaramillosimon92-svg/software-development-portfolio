@@ -26,12 +26,14 @@ st.set_page_config(page_title="Syncora", page_icon=":material/graphic_eq:", layo
 
 
 def reset_project() -> None:
+    next_upload_key = int(st.session_state.get("project_nonce", 0)) + 1
     for key in list(st.session_state):
-        if key.startswith("scene_pick_") or key in {
+        if key.startswith(("scene_pick_", "source_upload_", "beat_upload_")) or key in {
             "analysis", "output", "stats", "uploaded_url", "draft", "draft_audio", "draft_selection", "source_upload", "beat_upload", "rights",
             "video_title", "video_description", "saved_description_draft", "description_just_saved", "privacy", "output_quality", "playlist_input", "playlist_status", "draft_length", "export_length",
         }:
             st.session_state.pop(key, None)
+    st.session_state["project_nonce"] = next_upload_key
     st.session_state["skip_restore"] = True
 
 
@@ -189,12 +191,13 @@ with st.sidebar:
                     st.rerun()
     st.button("Start new project", on_click=reset_project, width="stretch", icon=":material/add:")
     st.markdown("#### Source and beat")
+    project_nonce = st.session_state.get("project_nonce", 0)
     source_upload = st.file_uploader(
         "Your source video",
         type=["mp4", "mov", "m4v", "mkv", "webm", "avi"],
-        key="source_upload",
+        key=f"source_upload_{project_nonce}",
     )
-    beat_upload = st.file_uploader("Your beat", type=["mp3", "wav", "m4a", "aac", "flac"], key="beat_upload")
+    beat_upload = st.file_uploader("Your beat", type=["mp3", "wav", "m4a", "aac", "flac"], key=f"beat_upload_{project_nonce}")
     confirmed = st.checkbox("I own or have permission to reuse the source video", key="rights")
     analyze = st.button("Find scene options", type="primary", width="stretch", icon=":material/search:")
 
