@@ -15,6 +15,7 @@ STYLE = """
 [data-testid="stSidebar"] { border-right:1px solid rgba(155,109,255,.16); }
 [data-testid="stSidebar"] button { border-radius:10px; }
 [data-testid="stMain"] h1,[data-testid="stMain"] h2,[data-testid="stMain"] h3 { letter-spacing:-.045em; }
+.studio-shell.landing { min-height:calc(100svh - 7rem); display:flex; flex-direction:column; justify-content:center; }
 .studio-hero { position:relative; isolation:isolate; overflow:hidden; min-height:380px; margin-bottom:1rem; padding:clamp(28px,4.4vw,64px); border:1px solid #292037; border-radius:24px; color:#f5f0ff; background:radial-gradient(ellipse at 80% 42%,rgba(98,53,179,.25),transparent 32%),linear-gradient(122deg,#100d19 0%,#151020 55%,#0b0a12 100%); display:grid; grid-template-columns:minmax(0,1.35fr) minmax(245px,.65fr); align-items:center; }
 .studio-hero:before { content:""; position:absolute; inset:0; pointer-events:none; opacity:.35; background-image:linear-gradient(90deg,rgba(190,163,245,.10) 1px,transparent 1px); background-size:25% 100%; }
 .studio-hero:after { content:""; position:absolute; width:520px; height:520px; right:-225px; top:-270px; border-radius:50%; border:1px solid rgba(188,150,255,.13); box-shadow:0 0 0 70px rgba(164,111,255,.025),0 0 0 140px rgba(164,111,255,.02); pointer-events:none; }
@@ -65,13 +66,14 @@ STYLE = """
 @keyframes studio-reveal { from { opacity:.55; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
 @supports (animation-timeline:view()) { .studio-section-head,[class*="st-key-scene_card_"] { animation:studio-reveal both; animation-timeline:view(); animation-range:entry 0% entry 55%; } }
 @media (max-width:850px) { .studio-hero { grid-template-columns:1fr; min-height:350px; } .studio-art { position:absolute; width:260px; height:260px; right:-55px; bottom:-30px; opacity:.3; } .studio-description { max-width:70%; } }
-@media (max-width:650px) { [data-testid="stMainBlockContainer"] { padding-top:.7rem; } .studio-hero { min-height:365px; padding:28px; border-radius:17px; } .studio-title { font-size:clamp(3.2rem,13vw,5rem); } .studio-tagline { font-size:clamp(1.6rem,6vw,2.2rem); } .studio-description { max-width:100%; } .studio-art { opacity:.13; right:-90px; } .studio-steps { gap:6px; } .studio-step { padding:11px 8px; gap:4px; flex-direction:column; text-align:center; } .studio-step strong { font-size:.66rem; } .studio-section-head { display:block; } .studio-section-head p { margin-top:.65rem; text-align:left; } }
+@media (max-width:650px) { [data-testid="stMainBlockContainer"] { padding-top:.7rem; } .studio-shell.landing { min-height:auto; } .studio-hero { min-height:365px; padding:28px; border-radius:17px; } .studio-title { font-size:clamp(3.2rem,13vw,5rem); } .studio-tagline { font-size:clamp(1.6rem,6vw,2.2rem); } .studio-description { max-width:100%; } .studio-art { opacity:.13; right:-90px; } .studio-steps { gap:6px; } .studio-step { padding:11px 8px; gap:4px; flex-direction:column; text-align:center; } .studio-step strong { font-size:.66rem; } .studio-section-head { display:block; } .studio-section-head p { margin-top:.65rem; text-align:left; } }
 @media (prefers-reduced-motion:reduce) { .studio-player,.studio-player-disc,.studio-player-wave span,.studio-player-progress:after,.studio-section-head,[class*="st-key-scene_card_"] { animation:none!important; } *,*:before,*:after { scroll-behavior:auto!important; transition-duration:.01ms!important; } }
 </style>
 """
 
 
 def render_hero(stage: int) -> None:
+    shell_class = "studio-shell landing" if stage == 1 else "studio-shell"
     steps = (("01", "Source & beat"), ("02", "Choose scenes"), ("03", "Review & export"))
     step_markup = "".join(
         f'<div class="studio-step {"active" if index == stage else ""}"><b>{number}</b><strong>{name}</strong></div>'
@@ -83,6 +85,7 @@ def render_hero(stage: int) -> None:
     )
     st.html(STYLE)
     st.html(f"""
+      <div class="{shell_class}">
       <div class="studio-hero">
         <div class="studio-copy">
           <div class="studio-topline">Music video / Creative workspace</div>
@@ -104,6 +107,7 @@ def render_hero(stage: int) -> None:
         </div>
       </div>
       <div class="studio-steps" aria-label="Editing progress">{step_markup}</div>
+      </div>
     """)
 
 
